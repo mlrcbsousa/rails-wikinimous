@@ -1,39 +1,26 @@
 class ArticlesController < ApplicationController
-  before_action :set_article, only: [:show, :edit, :update, :destroy]
+  before_action :set_article, only: %i[show edit update destroy]
 
-  def index           # GET /articles
+  def index
     @articles = Article.all
   end
 
-  #--------
-  def show            # GET /articles/:id
-  end
-
-  #--------
-  def new             # GET /articles/new
-    # We'll see that in a moment.
+  def new
     @article = Article.new
   end
 
-  def create          # POST /articles
+  def create
     @article = Article.create(article_params)
     redirect_to articles_path
   end
 
-  #--------
-  def edit            # GET /articles/:id/edit
-  end
-
-  def update          # PATCH /articles/:id
+  def update
     @article.update(article_params)
     redirect_to article_path(@article)
   end
 
-  #--------
-  def destroy         # DELETE /articles/:id
+  def destroy
     @article.destroy
-
-    # no need for app/views/articles/destroy.html.erb
     redirect_to articles_path
   end
 
@@ -44,8 +31,6 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    # *Strong params*: You need to *whitelist* what can be updated by the user
-    # Never trust user data!
     params.require(:article).permit(:title, :content)
   end
 end
